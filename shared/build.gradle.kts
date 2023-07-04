@@ -1,6 +1,7 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("org.jetbrains.compose").version(libs.versions.composeMultiplatform.get())
     id("org.jmailen.kotlinter")
 }
 
@@ -23,7 +24,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //put your multiplatform dependencies here
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
             }
         }
         val commonTest by getting {
