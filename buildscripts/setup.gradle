@@ -20,7 +20,7 @@ task deleteSetupCode() {
     }
 }
 
-task renameAppPackage(type: Copy) {
+task renameAppPackage {
     description "Renames the template package in the app module."
     group null
 
@@ -28,33 +28,7 @@ task renameAppPackage(type: Copy) {
     def startingDirectory = "${rootDir}/app/src/main/java/${renameConfig.templateName}"
     def endingDirectory = "${rootDir}/app/src/main/java/${newPackageAsDirectory}"
 
-    from(startingDirectory)
-    into(endingDirectory)
-
-    // Replace package statements
-    filter { line ->
-        line.replaceAll(
-                "package ${renameConfig.templateName}",
-                "package ${renameConfig.newPackage}"
-        )
-    }
-
-    // Replace import statements
-    filter { line ->
-        line.replaceAll(
-                "import ${renameConfig.templateName}",
-                "import ${renameConfig.newPackage}"
-        )
-    }
-
-    // Replace Theme references. We can just replace on name,
-    // which covers both imports and function calls.
-    filter { line ->
-        line.replaceAll(
-                "${renameConfig.templateMaterialThemeName}",
-                "${renameConfig.newMaterialThemeName}"
-        )
-    }
+    replacePackageAndImports(startingDirectory, endingDirectory)
 
     doLast {
         delete(startingDirectory)
@@ -157,6 +131,38 @@ static def removeTextFromFile(fileName, text) {
         if (!line.contains(text)) {
             file.append(line)
             file.append("\n")
+        }
+    }
+}
+
+static def replacePackageAndImports(startingDirectory, endingDirectory) {
+    copy {
+        from(startingDirectory)
+        into(endingDirectory)
+
+        // Replace package statements
+        filter { line ->
+            line.replaceAll(
+                    "package ${renameConfig.templateName}",
+                    "package ${renameConfig.newPackage}"
+            )
+        }
+
+        // Replace import statements
+        filter { line ->
+            line.replaceAll(
+                    "import ${renameConfig.templateName}",
+                    "import ${renameConfig.newPackage}"
+            )
+        }
+
+        // Replace Theme references. We can just replace on name,
+        // which covers both imports and function calls.
+        filter { line ->
+            line.replaceAll(
+                    "${renameConfig.templateMaterialThemeName}",
+                    "${renameConfig.newMaterialThemeName}"
+            )
         }
     }
 }
