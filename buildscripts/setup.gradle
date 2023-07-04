@@ -28,9 +28,9 @@ task renameAppPackage {
     def startingDirectory = "${rootDir}/app/src/main/java/${renameConfig.templateName}"
     def endingDirectory = "${rootDir}/app/src/main/java/${newPackageAsDirectory}"
 
-    replacePackageAndImports(startingDirectory, endingDirectory)
-
     doLast {
+        replacePackageAndImports(startingDirectory, endingDirectory)
+
         delete(startingDirectory)
     }
 }
