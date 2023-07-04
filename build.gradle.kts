@@ -19,7 +19,6 @@ buildscript {
 }
 
 plugins {
-    id("com.google.dagger.hilt.android").version(libs.versions.hilt).apply(false)
     id("io.gitlab.arturbosch.detekt").version(libs.versions.detektGradlePlugin)
     id("org.jmailen.kotlinter").version(libs.versions.kotlinter).apply(false)
 }
