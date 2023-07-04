@@ -25,35 +25,24 @@ task renameAppPackage(type: Copy) {
     group null
 
     def newPackageAsDirectory = renameConfig.newPackage.replaceAll("\\.", "/")
-    def startingDirectory = "app/src/main/java/${renameConfig.templateName}"
-    def endingDirectory = "app/src/main/java/${newPackageAsDirectory}"
 
     into(rootDir)
 
-    from(startingDirectory) {
-        into(endingDirectory)
+    from("app/src/main/java/${renameConfig.templateName}") {
+        into("app/src/main/java/${newPackageAsDirectory}")
     }
 
-    // into(projectDir) // copy into relative to this
-    //
-    //    from("foo"){
-    //        into("copied/foo") // will be projectDir/copied/foo
-    //        // just standard copy stuff
-    //        rename("a.txt", "x.txt")
-    //    }
-    //
-    //    from("bar"){
-    //        into("copied/aswell/bar") //  projectDir/copied/copied/aswell/bar
-    //    }
-    //
-    //    from("baz") // baz folder content will get copied into projectDir
-    //
-    //    //from("/bar"){ // this will mess things up, be very careful with the paths
-    //    //    into("copied/aswell/bar")
-    //    //}
+    from("shared/src/commonMain/kotlin/${renameConfig.templateName}") {
+        into("shared/src/commonMain/kotlin/${newPackageAsDirectory}")
+    }
 
-    from(startingDirectory)
-    into(endingDirectory)
+    from("shared/src/androidMain/kotlin/${renameConfig.templateName}") {
+        into("shared/src/androidMain/kotlin/${newPackageAsDirectory}")
+    }
+
+    from("shared/src/iosMain/kotlin/${renameConfig.templateName}") {
+        into("shared/src/iosMain/kotlin/${newPackageAsDirectory}")
+    }
 
     // Replace package statements
     filter { line ->
@@ -81,7 +70,10 @@ task renameAppPackage(type: Copy) {
     }
 
     doLast {
-        delete(startingDirectory)
+        delete("app/src/main/java/${renameConfig.templateName}")
+        delete("shared/src/commonMain/kotlin/${renameConfig.templateName}")
+        delete("shared/src/androidMain/kotlin/${renameConfig.templateName}")
+        delete("shared/src/iosMain/kotlin/${renameConfig.templateName}")
     }
 }
 
