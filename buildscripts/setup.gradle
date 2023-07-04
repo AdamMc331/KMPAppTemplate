@@ -20,17 +20,67 @@ task deleteSetupCode() {
     }
 }
 
-task renameAppPackage {
+task renameAppPackage(type: Copy) {
     description "Renames the template package in the app module."
     group null
 
     def newPackageAsDirectory = renameConfig.newPackage.replaceAll("\\.", "/")
     def startingDirectory = "${rootDir}/app/src/main/java/${renameConfig.templateName}"
-    def endingDirectory = "${rootDir}/app/src/main/java/${newPackageAsDirectory}"
+    def endingDirectory = "/app/src/main/java/${newPackageAsDirectory}"
+
+    into(projectDir)
+
+    from(startingDirectory) {
+        into(endingDirectory)
+    }
+
+    // into(projectDir) // copy into relative to this
+    //
+    //    from("foo"){
+    //        into("copied/foo") // will be projectDir/copied/foo
+    //        // just standard copy stuff
+    //        rename("a.txt", "x.txt")
+    //    }
+    //
+    //    from("bar"){
+    //        into("copied/aswell/bar") //  projectDir/copied/copied/aswell/bar
+    //    }
+    //
+    //    from("baz") // baz folder content will get copied into projectDir
+    //
+    //    //from("/bar"){ // this will mess things up, be very careful with the paths
+    //    //    into("copied/aswell/bar")
+    //    //}
+
+    from(startingDirectory)
+    into(endingDirectory)
+
+    // Replace package statements
+    filter { line ->
+        line.replaceAll(
+                "package ${renameConfig.templateName}",
+                "package ${renameConfig.newPackage}"
+        )
+    }
+
+    // Replace import statements
+    filter { line ->
+        line.replaceAll(
+                "import ${renameConfig.templateName}",
+                "import ${renameConfig.newPackage}"
+        )
+    }
+
+    // Replace Theme references. We can just replace on name,
+    // which covers both imports and function calls.
+    filter { line ->
+        line.replaceAll(
+                "${renameConfig.templateMaterialThemeName}",
+                "${renameConfig.newMaterialThemeName}"
+        )
+    }
 
     doLast {
-        replacePackageAndImports(startingDirectory, endingDirectory)
-
         delete(startingDirectory)
     }
 }
@@ -131,38 +181,6 @@ static def removeTextFromFile(fileName, text) {
         if (!line.contains(text)) {
             file.append(line)
             file.append("\n")
-        }
-    }
-}
-
-static def replacePackageAndImports(startingDirectory, endingDirectory) {
-    copy {
-        from(startingDirectory)
-        into(endingDirectory)
-
-        // Replace package statements
-        filter { line ->
-            line.replaceAll(
-                    "package ${renameConfig.templateName}",
-                    "package ${renameConfig.newPackage}"
-            )
-        }
-
-        // Replace import statements
-        filter { line ->
-            line.replaceAll(
-                    "import ${renameConfig.templateName}",
-                    "import ${renameConfig.newPackage}"
-            )
-        }
-
-        // Replace Theme references. We can just replace on name,
-        // which covers both imports and function calls.
-        filter { line ->
-            line.replaceAll(
-                    "${renameConfig.templateMaterialThemeName}",
-                    "${renameConfig.newMaterialThemeName}"
-            )
         }
     }
 }
