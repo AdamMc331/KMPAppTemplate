@@ -5,9 +5,6 @@ def renameConfig = [
         newPackage               : "domain.yourname.app",
         newProjectName           : "Your Project",
         newMaterialThemeName     : "MyMaterialTheme",
-        useHiltDependencies      : true,
-        useRoomDependencies      : true,
-        useRetrofitDependencies  : true,
 ]
 
 task deleteSetupCode() {
@@ -113,18 +110,9 @@ task keepOrRemoveDependencies {
         ]
 
         filesWithDependencies.each { fileName ->
-            if (renameConfig.useHiltDependencies != true) {
-                removeTextFromFile(fileName, "hilt")
-            }
-
-            if (renameConfig.useRoomDependencies != true) {
-                removeTextFromFile(fileName, "room")
-            }
-
-            if (renameConfig.useRetrofitDependencies != true) {
-                removeTextFromFile(fileName, "retrofit")
-                removeTextFromFile(fileName, "moshi")
-            }
+            // We removed android deps like hilt, retrofit, moshi
+            // but I want to keep this block because it may
+            // apply to some default KMM libs like ktor, circuit, sqldelight
         }
     }
 }
