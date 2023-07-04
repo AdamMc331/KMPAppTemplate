@@ -28,7 +28,7 @@ task renameAppPackage(type: Copy) {
     def startingDirectory = "/app/src/main/java/${renameConfig.templateName}"
     def endingDirectory = "/app/src/main/java/${newPackageAsDirectory}"
 
-    into(projectDir)
+    into(rootDir)
 
     from(startingDirectory) {
         into(endingDirectory)
