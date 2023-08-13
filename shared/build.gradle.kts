@@ -36,7 +36,7 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 // Work around for atomicfu compile issue? https://youtrack.jetbrains.com/issue/KT-41821/Kotlin-1.4.10-ios-target-java.lang.IllegalStateException-failed-to-resolve-Kotlin-library-org.jetbrains.kotlinx-atomicfu-common#focus=Comments-27-4388846.0-0
-                implementation("org.jetbrains.kotlinx:atomicfu:0.21.0")
+                implementation(libs.jetbrains.atomicfu)
             }
         }
         val commonTest by getting {
