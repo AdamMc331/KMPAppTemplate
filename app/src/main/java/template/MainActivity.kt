@@ -23,16 +23,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ConfigureTransparentSystemBars()
-
-            TemplateTheme {
-                Surface(
-                    color = MaterialTheme.colorScheme.background,
-                ) {
-                    Text(
-                        text = Greeting().greet(),
-                    )
-                }
-            }
         }
     }
 
