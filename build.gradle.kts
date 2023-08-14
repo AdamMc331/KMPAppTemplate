@@ -28,7 +28,7 @@ apply(from = "buildscripts/setup.gradle")
 apply(from = "buildscripts/versionsplugin.gradle")
 
 subprojects {
-    apply(from = "../buildscripts/detekt.gradle")
+    apply(from = "${rootDir}/buildscripts/detekt.gradle")
 }
 
 tasks.register("clean", Delete::class) {
