@@ -89,13 +89,13 @@ task replaceTemplateReferences {
         )
 
         replaceTextInFile(
-                "${rootDir}/app/build.gradle.kts",
+                "${rootDir}/android/app/build.gradle.kts",
                 "namespace = \"${renameConfig.templateName}\"",
                 "namespace = \"${renameConfig.newPackage}\"",
         )
 
         replaceTextInFile(
-                "${rootDir}/app/build.gradle.kts",
+                "${rootDir}/android/app/build.gradle.kts",
                 "applicationId = \"${renameConfig.templateAppId}\"",
                 "applicationId = \"${renameConfig.newPackage}\"",
         )
@@ -121,7 +121,7 @@ task keepOrRemoveDependencies {
     doLast {
         def filesWithDependencies = [
                 "${rootDir}/build.gradle.kts",
-                "${rootDir}/app/build.gradle.kts",
+                "${rootDir}/android/app/build.gradle.kts",
                 "${rootDir}/gradle/libs.versions.toml",
         ]
 
