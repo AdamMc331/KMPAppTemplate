@@ -1,4 +1,4 @@
-package template.theme
+package template.shared.ui.theme
 
 import android.annotation.TargetApi
 import android.os.Build
