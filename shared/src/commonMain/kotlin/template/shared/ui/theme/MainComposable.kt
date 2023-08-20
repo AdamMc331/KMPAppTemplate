@@ -1,5 +1,6 @@
 package template.shared.ui.theme
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -18,7 +19,8 @@ fun MainComposable(
     TemplateTheme {
         Surface(
             color = MaterialTheme.colorScheme.background,
-            modifier = modifier,
+            modifier = modifier
+                .fillMaxSize(),
         ) {
             Text(
                 text = Greeting().greet(),
