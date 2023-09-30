@@ -33,7 +33,6 @@ jobs:
         with:
           workspace: templateios/templateios.xcworkspace
           scheme: templateios
-          destination: name=iPhone 14
+          destination: name=iPhone 14,platform=iOS
           sdk: iphoneos
-          configuration: Debug
-          action: clean build
+          action: build
