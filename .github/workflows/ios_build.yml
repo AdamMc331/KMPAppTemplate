@@ -31,7 +31,7 @@ jobs:
       - name: Build
         uses: sersoft-gmbh/xcodebuild-action@v3
         with:
-          workspace: templateios/templateios.xcworkspace
+          project: templateios/templateios.xcodeproj
           scheme: templateios
           destination: name=iPhone 8
           sdk: iphoneos
