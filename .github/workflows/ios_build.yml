@@ -36,4 +36,4 @@ jobs:
           destination: name=iPhone 8
           sdk: iphoneos
           configuration: Debug
-          action: build
+          action: clean build
