@@ -25,11 +25,11 @@ jobs:
           # Only write to the cache for builds on the 'development' branch
           cache-read-only: ${{ github.ref != 'refs/heads/development' }}
 
-      - name: Build
+      - name: Test
         run: ./gradlew :shared:iosX64Test
 
       - name: Build
-        uses: sersoft-gmbh/xcodebuild-action@v1
+        uses: sersoft-gmbh/xcodebuild-action@v3
         with:
           workspace: templateios/templateios.xcworkspace
           scheme: templateios
