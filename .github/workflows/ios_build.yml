@@ -1,0 +1,39 @@
+name: iOS Build
+
+on:
+  push:
+    branches:
+      - development
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          # Only write to the cache for builds on the 'development' branch
+          cache-read-only: ${{ github.ref != 'refs/heads/development' }}
+
+      - name: Test
+        run: ./gradlew :shared:iosX64Test
+
+      - name: Build
+        uses: sersoft-gmbh/xcodebuild-action@v3
+        with:
+          workspace: templateios/templateios.xcworkspace
+          scheme: templateios
+          destination: name=iPhone 14
+          sdk: iphoneos
+          configuration: Debug
+          action: build
